@@ -17,7 +17,7 @@ const Profile = (props) => {
 
     return (
         <div className={'container'}>
-            <a className={'link'} href={'https://myanimelist.net/profile/' + props.name}><span className={'profile-name'}>{props.name}</span></a>
+            <a className={'link'} href={'https://myanimelist.net/profile/' + props.name} target={'_blank'}><span className={'profile-name'}>{props.name}</span></a>
             <div>
                 <ul className={'anime-list'}>{topRatedTitles.map(anime => <li key={anime.title}><Anime anime={anime} /></li>)}</ul>
             </div>
