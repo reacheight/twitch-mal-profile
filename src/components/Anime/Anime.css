@@ -1,0 +1,23 @@
+.anime {
+  padding-block: 5px;
+  display: flex;
+}
+
+.title {
+  font-weight: bold;
+  padding-bottom: 10px;
+}
+
+.score {
+  font-size: 13px;
+}
+
+.description {
+  float: right;
+}
+
+.picture {
+  padding-left: 5px;
+  padding-right: 20px;
+  float: left;
+}

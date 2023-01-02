@@ -69,7 +69,7 @@
     "bitsEnabled": false,
     "canInstall": true,
     "configUrl": "https://localhost:8080/config.html",
-    "configurationLocation": "none",
+    "configurationLocation": "hosted",
     "description": "",
     "eulaTosUrl": "",
     "hasChatSupport": false,
@@ -100,7 +100,7 @@
       "panel": {
         "viewerUrl": "https://localhost:8080/panel.html",
         "height": 300,
-        "canLinkExternalContent": false
+        "canLinkExternalContent": true
       },
       "config": {
         "viewerUrl": "https://localhost:8080/config.html",
@@ -108,7 +108,9 @@
       }
     },
     "whitelistedConfigUrls": [],
-    "whitelistedPanelUrls": []
+    "whitelistedPanelUrls": [
+      "https://api.myanimelist.net"
+    ]
   },
   "frontendCommand": "npm start",
   "frontendFolderName": "",
