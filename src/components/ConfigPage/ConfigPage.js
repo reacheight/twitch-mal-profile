@@ -8,12 +8,11 @@ export default class ConfigPage extends React.Component {
         super(props)
         this.Authentication = new Authentication()
 
-        //if the extension is running on twitch or dev rig, set the shorthand here. otherwise, set to null. 
         this.twitch = window.Twitch ? window.Twitch.ext : null
         this.state = {
             finishedLoading: false,
             theme: 'light',
-            profileName: '',
+            profileName: null,
         }
     }
 
@@ -26,18 +25,10 @@ export default class ConfigPage extends React.Component {
     }
 
     componentDidMount() {
-        // do config page setup as needed here
         if (this.twitch) {
             this.twitch.onAuthorized((auth) => {
                 this.Authentication.setToken(auth.token, auth.userId)
-                if (!this.state.finishedLoading) {
-                    // if the component hasn't finished loading (as in we've not set up after getting a token), let's set it up now.
-
-                    // now we've done the setup for the component, let's set the state to true to force a rerender with the correct data.
-                    this.setState(() => {
-                        return {finishedLoading: true}
-                    })
-                }
+                this.setState({finishedLoading: true})
             })
 
             this.twitch.onContext((context, delta) => {
@@ -47,10 +38,7 @@ export default class ConfigPage extends React.Component {
     }
 
     handleInputChange(event) {
-        const target = event.target;
-        this.setState({
-            profileName: target.value
-        });
+        this.setState({profileName: event.target.value});
     }
 
     onSubmit(event) {
@@ -63,13 +51,10 @@ export default class ConfigPage extends React.Component {
             return (
                 <div className="Config">
                     <div className={this.state.theme === 'light' ? 'Config-light' : 'Config-dark'}>
-                        <form onSubmit={(e) => this.onSubmit(e)}>
+                        <form onSubmit={e => this.onSubmit(e)}>
                             <label>
                                 Enter your MyAnimeList profile name:
-                                <input
-                                    type="text"
-                                    onChange={(e) => this.handleInputChange(e)}
-                                />
+                                <input type="text" onChange={e => this.handleInputChange(e)} />
                             </label>
                             <button type={'submit'}>Ok</button>
                         </form>
@@ -80,7 +65,7 @@ export default class ConfigPage extends React.Component {
             return (
                 <div className="Config">
                     <div className={this.state.theme === 'light' ? 'Config-light' : 'Config-dark'}>
-                        Loading...
+                        You should be a moderator to configure this extension.
                     </div>
                 </div>
             )
