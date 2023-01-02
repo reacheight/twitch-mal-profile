@@ -12,7 +12,8 @@ export default class ConfigPage extends React.Component{
         this.twitch = window.Twitch ? window.Twitch.ext : null
         this.state={
             finishedLoading:false,
-            theme:'light'
+            theme:'light',
+            profileName: '',
         }
     }
 
@@ -45,12 +46,35 @@ export default class ConfigPage extends React.Component{
         }
     }
 
+    handleInputChange(event) {
+        const target = event.target;
+        this.setState({
+            [profileName]: target.value
+        });
+    }
+
+    onSubmit(event) {
+        event.preventDefault()
+
+        this.twitch.configuration.set('broadcaster', '1.0', profileName)
+    }
+
     render(){
         if(this.state.finishedLoading && this.Authentication.isModerator()){
             return(
                 <div className="Config">
                     <div className={this.state.theme==='light' ? 'Config-light' : 'Config-dark'}>
-                        There is no configuration needed for this extension!
+                        <form onSubmit={(e)=>this.onSubmit(e)}>
+                            <label>
+                                MyAnimeList profile name:
+                                <input 
+                                    name="MAL profile name" 
+                                    type="text" 
+                                    placeholder="MyAnimeList profile name" 
+                                    onChange={(e)=>this.handleInputChange(e)}
+                                />
+                            </label>
+                        </form>
                     </div>
                 </div>
             )
