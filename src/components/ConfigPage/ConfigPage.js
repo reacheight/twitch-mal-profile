@@ -65,11 +65,9 @@ export default class ConfigPage extends React.Component {
                     <div className={this.state.theme === 'light' ? 'Config-light' : 'Config-dark'}>
                         <form onSubmit={(e) => this.onSubmit(e)}>
                             <label>
-                                MyAnimeList profile name:
+                                Enter your MyAnimeList profile name:
                                 <input
-                                    name="MAL profile name"
                                     type="text"
-                                    placeholder="MyAnimeList profile name"
                                     onChange={(e) => this.handleInputChange(e)}
                                 />
                             </label>
