@@ -49,14 +49,13 @@ export default class ConfigPage extends React.Component {
     handleInputChange(event) {
         const target = event.target;
         this.setState({
-            [profileName]: target.value
+            profileName: target.value
         });
     }
 
     onSubmit(event) {
         event.preventDefault()
-
-        this.twitch.configuration.set('broadcaster', '1.0', profileName)
+        this.twitch.configuration.set('broadcaster', '1.0', this.state.profileName)
     }
 
     render() {
@@ -74,6 +73,7 @@ export default class ConfigPage extends React.Component {
                                     onChange={(e) => this.handleInputChange(e)}
                                 />
                             </label>
+                            <button type={'submit'}>Ok</button>
                         </form>
                     </div>
                 </div>
