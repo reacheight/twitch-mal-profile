@@ -6,43 +6,43 @@ let modToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1NjU5NzMxOTAsIm9
 
 let auth = new Authentication()
 
-test('able to create new Authenciation instance', ()=>{
+test('able to create new Authenciation instance', () => {
     expect(auth).toBeDefined()
 })
 
-test('able to set a token', ()=>{
-    auth.setToken(normalToken,'U12345678')
-    expect(auth.isAuthenticated()).toEqual(true)    
+test('able to set a token', () => {
+    auth.setToken(normalToken, 'U12345678')
+    expect(auth.isAuthenticated()).toEqual(true)
 })
 
 
-describe('makeCall tests', ()=>{
-    test('able to call a test URL', async ()=>{
+describe('makeCall tests', () => {
+    test('able to call a test URL', async () => {
         let response = await auth.makeCall('https://twitch.tv/')
         expect(response.status).toEqual(200)
     })
-    
-    test('rejects when no credentials', ()=>{
-        auth.setToken('','')
+
+    test('rejects when no credentials', () => {
+        auth.setToken('', '')
         return expect(auth.makeCall('https://twitch.tv/')).rejects.toEqual('Unauthorized')
     })
 
-    test('rejects on invalid response',()=>{
-        auth.setToken('abc123','U12345678')
+    test('rejects on invalid response', () => {
+        auth.setToken('abc123', 'U12345678')
         return expect(auth.makeCall('htts://api')).rejects.toBeDefined()
     })
 
-    test('rejecsts on bad credentials',async ()=>{
+    test('rejecsts on bad credentials', async () => {
         return expect(auth.makeCall('https://google.com')).rejects.toBeDefined()
     })
 })
 
-describe('moderator tests', ()=>{
-    test('returns valid mod status',()=>{
-        auth.setToken(modToken,'ABC123')
+describe('moderator tests', () => {
+    test('returns valid mod status', () => {
+        auth.setToken(modToken, 'ABC123')
         expect(auth.isModerator()).toEqual(true)
 
-        auth.setToken(normalToken,'ABC123')
+        auth.setToken(normalToken, 'ABC123')
         expect(auth.isModerator()).toEqual(false)
     })
 })

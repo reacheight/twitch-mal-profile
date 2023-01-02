@@ -3,45 +3,45 @@ import Authentication from '../../util/Authentication/Authentication'
 
 import './Config.css'
 
-export default class ConfigPage extends React.Component{
-    constructor(props){
+export default class ConfigPage extends React.Component {
+    constructor(props) {
         super(props)
         this.Authentication = new Authentication()
 
         //if the extension is running on twitch or dev rig, set the shorthand here. otherwise, set to null. 
         this.twitch = window.Twitch ? window.Twitch.ext : null
-        this.state={
-            finishedLoading:false,
-            theme:'light',
+        this.state = {
+            finishedLoading: false,
+            theme: 'light',
             profileName: '',
         }
     }
 
-    contextUpdate(context, delta){
-        if(delta.includes('theme')){
-            this.setState(()=>{
-                return {theme:context.theme}
+    contextUpdate(context, delta) {
+        if (delta.includes('theme')) {
+            this.setState(() => {
+                return {theme: context.theme}
             })
         }
     }
 
-    componentDidMount(){
+    componentDidMount() {
         // do config page setup as needed here
-        if(this.twitch){
-            this.twitch.onAuthorized((auth)=>{
+        if (this.twitch) {
+            this.twitch.onAuthorized((auth) => {
                 this.Authentication.setToken(auth.token, auth.userId)
-                if(!this.state.finishedLoading){
+                if (!this.state.finishedLoading) {
                     // if the component hasn't finished loading (as in we've not set up after getting a token), let's set it up now.
-    
+
                     // now we've done the setup for the component, let's set the state to true to force a rerender with the correct data.
-                    this.setState(()=>{
-                        return {finishedLoading:true}
+                    this.setState(() => {
+                        return {finishedLoading: true}
                     })
                 }
             })
-    
-            this.twitch.onContext((context,delta)=>{
-                this.contextUpdate(context,delta)
+
+            this.twitch.onContext((context, delta) => {
+                this.contextUpdate(context, delta)
             })
         }
     }
@@ -59,30 +59,29 @@ export default class ConfigPage extends React.Component{
         this.twitch.configuration.set('broadcaster', '1.0', profileName)
     }
 
-    render(){
-        if(this.state.finishedLoading && this.Authentication.isModerator()){
-            return(
+    render() {
+        if (this.state.finishedLoading && this.Authentication.isModerator()) {
+            return (
                 <div className="Config">
-                    <div className={this.state.theme==='light' ? 'Config-light' : 'Config-dark'}>
-                        <form onSubmit={(e)=>this.onSubmit(e)}>
+                    <div className={this.state.theme === 'light' ? 'Config-light' : 'Config-dark'}>
+                        <form onSubmit={(e) => this.onSubmit(e)}>
                             <label>
                                 MyAnimeList profile name:
-                                <input 
-                                    name="MAL profile name" 
-                                    type="text" 
-                                    placeholder="MyAnimeList profile name" 
-                                    onChange={(e)=>this.handleInputChange(e)}
+                                <input
+                                    name="MAL profile name"
+                                    type="text"
+                                    placeholder="MyAnimeList profile name"
+                                    onChange={(e) => this.handleInputChange(e)}
                                 />
                             </label>
                         </form>
                     </div>
                 </div>
             )
-        }
-        else{
-            return(
+        } else {
+            return (
                 <div className="Config">
-                    <div className={this.state.theme==='light' ? 'Config-light' : 'Config-dark'}>
+                    <div className={this.state.theme === 'light' ? 'Config-light' : 'Config-dark'}>
                         Loading...
                     </div>
                 </div>
