@@ -10,16 +10,6 @@ const bundlePath = path.resolve(__dirname, "dist/")
 
 module.exports = (_env,argv)=> {
   let entryPoints = {
-    VideoComponent:{
-      path:"./src/VideoComponent.js",
-      outputHtml:"video_component.html",
-      build:true
-    },
-    VideoOverlay:{
-      path:"./src/VideoOverlay.js",
-      outputHtml:"video_overlay.html",
-      build:true
-    },
     Panel:{
       path:"./src/Panel.js",
       outputHtml:"panel.html",
