@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "jest",
-    "build": "webpack --mode production",
-    "start": "webpack-dev-server --mode development",
+    "build": "webpack --env production --mode production",
+    "start": "webpack-dev-server --env development --mode development",
     "cert": "./bin/generate_cert.sh server",
     "host": "webpack-dev-server --mode development --devrig"
   },
@@ -21,6 +21,7 @@
     "babel-loader": "^8.0.0",
     "clean-webpack-plugin": "^1.0.1",
     "css-loader": "^3.4.0",
+    "dotenv-webpack": "^8.0.1",
     "enzyme": "^3.10.0",
     "enzyme-adapter-react-16": "^1.15.1",
     "file-loader": "^1.1.11",

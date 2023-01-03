@@ -7,7 +7,7 @@ const Profile = (props) => {
     const [topRatedTitles, setTopRatedTitles] = useState(null)
 
     useEffect(() => {
-        fetch(`https://reacheight.pythonanywhere.com/${props.name}/anime/top`)
+        fetch(`${process.env.MAL_PROXY_HOST}/${props.name}/anime/top`)
             .then(response => response.json())
             .then(json => setTopRatedTitles(json))
     }, [])

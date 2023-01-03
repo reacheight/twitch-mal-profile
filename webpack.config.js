@@ -1,6 +1,7 @@
 const fs = require('fs')
 const path = require("path")
 const webpack = require("webpack")
+const Dotenv = require('dotenv-webpack');
 
 const CleanWebpackPlugin = require('clean-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
@@ -37,7 +38,11 @@ module.exports = (_env, argv) => {
     // edit webpack plugins here!
     let plugins = [
         new CleanWebpackPlugin(['dist']),
-        new webpack.HotModuleReplacementPlugin()
+        new webpack.HotModuleReplacementPlugin(),
+        new Dotenv({
+            systemvars: true,
+            path: `./.env.${_env}`
+        })
     ]
 
     for (name in entryPoints) {
