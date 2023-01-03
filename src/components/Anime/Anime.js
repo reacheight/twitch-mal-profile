@@ -2,7 +2,7 @@ import React from "react";
 
 import './Anime.css'
 
-const Anime = ({ anime }) => {
+const Anime = ({ anime, showScore = true, showEpisodes = true }) => {
     const animeUrl = `https://myanimelist.net/anime/${anime.id}`
 
     return (
@@ -12,7 +12,8 @@ const Anime = ({ anime }) => {
             </div>
             <div className={'description'}>
                 <div className={'title'}>{anime.title}</div>
-                <div className={'score'}>Score: {anime.score}</div>
+                {showEpisodes && <div className={'list-status'}>Episodes watched: {anime.episodes_watched}</div>}
+                {showScore && <div className={'list-status'}>Score: {anime.score}</div>}
             </div>
         </div>
     )

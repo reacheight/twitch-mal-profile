@@ -9,6 +9,7 @@ import {TabContext, TabList, TabPanel} from "@mui/lab";
 const Profile = (props) => {
     const [topRatedTitles, setTopRatedTitles] = useState(null)
     const [newFinishedTitles, setNewFinishedTitles] = useState(null)
+    const [watchingTitles, setWatchingTitles] = useState(null)
     const [tabIndex, setTabIndex] = useState('1');
 
     const handleChange = (event, newValue) => {
@@ -27,7 +28,13 @@ const Profile = (props) => {
             .then(json => setNewFinishedTitles(json))
     }, [])
 
-    if (!topRatedTitles || !newFinishedTitles)
+    useEffect(() => {
+        fetch(`${process.env.MAL_PROXY_HOST}/${props.name}/anime/watching?limit=5`)
+            .then(response => response.json())
+            .then(json => setWatchingTitles(json))
+    }, [])
+
+    if (!topRatedTitles || !newFinishedTitles || !watchingTitles)
         return <p>Loading...</p>
 
     const tabStyle = {fontSize: '12px', minHeight: '30px', minWidth: '50px', padding: '0px 0px'}
@@ -44,12 +51,14 @@ const Profile = (props) => {
                         <Tab sx={tabStyle} label="Watching" value="3" />
                     </TabList>
                     <TabPanel sx={panelStyle} value="1">
-                        <ul className={'anime-list'}>{topRatedTitles.map(anime => <li key={anime.title}><Anime anime={anime} /></li>)}</ul>
+                        <ul className={'anime-list'}>{topRatedTitles.map(anime => <li key={anime.title}><Anime anime={anime} showEpisodes={false} /></li>)}</ul>
                     </TabPanel>
                     <TabPanel sx={panelStyle} value="2">
-                        <ul className={'anime-list'}>{newFinishedTitles.map(anime => <li key={anime.title}><Anime anime={anime} /></li>)}</ul>
+                        <ul className={'anime-list'}>{newFinishedTitles.map(anime => <li key={anime.title}><Anime anime={anime} showEpisodes={false} /></li>)}</ul>
                     </TabPanel>
-                    <TabPanel sx={panelStyle} value="3">Item Three</TabPanel>
+                    <TabPanel sx={panelStyle} value="3">
+                        <ul className={'anime-list'}>{watchingTitles.map(anime => <li key={anime.title}><Anime anime={anime} showScore={false} /></li>)}</ul>
+                    </TabPanel>
                 </TabContext>
             </div>
         </div>
