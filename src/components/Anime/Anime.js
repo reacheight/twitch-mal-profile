@@ -3,10 +3,12 @@ import React from "react";
 import './Anime.css'
 
 const Anime = ({ anime }) => {
+    const animeUrl = `https://myanimelist.net/anime/${anime.id}`
+
     return (
         <div className={'anime'}>
             <div className={'picture'}>
-                <img alt={anime.title} src={anime.picture} width={90} />
+                <a href={animeUrl} target={"_blank"}><img alt={anime.title} src={anime.picture} width={90} /></a>
             </div>
             <div className={'description'}>
                 <div className={'title'}>{anime.title}</div>
