@@ -3,6 +3,7 @@ import Authentication from '../../util/Authentication/Authentication'
 
 import './App.css'
 import Profile from "../Profile/Profile";
+import {createTheme, ThemeProvider} from "@mui/material";
 
 export default class App extends React.Component {
     constructor(props) {
@@ -51,12 +52,23 @@ export default class App extends React.Component {
     }
 
     render() {
+        const theme = createTheme({
+            palette: {
+                mode: this.state.theme,
+                primary: {
+                    main: this.state.theme === 'light' ? '#232127' : '#e5e3e8',
+                    light: '#e5e3e8',
+                    dark: '#232127',
+                },
+            },
+        })
+
         if (this.state.finishedLoading && this.state.isVisible) {
             return (
                 <div className="App">
                     <div className={this.state.theme === 'light' ? 'App-light' : 'App-dark'}>
                         {!this.state.profileName && <p>Please configure your MyAnimeList username for extension.</p>}
-                        {this.state.profileName && <Profile name={this.state.profileName} />}
+                        {this.state.profileName && <ThemeProvider theme={theme}><Profile name={this.state.profileName} /></ThemeProvider>}
                     </div>
                 </div>
             )
