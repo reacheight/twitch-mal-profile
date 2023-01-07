@@ -20,15 +20,11 @@ const Profile = (props) => {
         fetch(`${process.env.MAL_PROXY_HOST}/${props.name}/anime/top?limit=5`)
             .then(response => response.json())
             .then(json => setTopRatedTitles(json))
-    }, [])
 
-    useEffect(() => {
         fetch(`${process.env.MAL_PROXY_HOST}/${props.name}/anime/recently-finished?limit=5`)
             .then(response => response.json())
             .then(json => setNewFinishedTitles(json))
-    }, [])
 
-    useEffect(() => {
         fetch(`${process.env.MAL_PROXY_HOST}/${props.name}/anime/watching?limit=5`)
             .then(response => response.json())
             .then(json => setWatchingTitles(json))
@@ -38,11 +34,15 @@ const Profile = (props) => {
         return <p>Loading...</p>
 
     const tabStyle = {fontSize: '12px', minHeight: '30px', minWidth: '50px', padding: '0px 0px'}
-    const panelStyle = {padding: '0'}
+    const panelStyle = {padding: '0', overflowBlock: 'scroll', height: '360px', width: '300px'}
 
     return (
         <div className={'container'}>
-            <a className={'link'} href={'https://myanimelist.net/profile/' + props.name} target={'_blank'}><span className={'profile-name'}>{props.name}</span></a>
+            <div className={'profile'}>
+                <a className={'profile-link'} href={'https://myanimelist.net/profile/' + props.name} target={'_blank'}>
+                    <span className={'profile-name'}>{props.name}</span>
+                </a>
+            </div>
             <div className={'tabs'}>
                 <TabContext value={tabIndex}>
                     <TabList sx={{minHeight: '30px', padding: '0'}} variant="fullWidth" onChange={handleChange}>

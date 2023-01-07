@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react'
 
 import './App.css'
 import Profile from "../Profile/Profile";
+
 import {createTheme, ThemeProvider} from "@mui/material";
 
 const App = () => {
