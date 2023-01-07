@@ -1,74 +1,43 @@
-import React from 'react'
-import Authentication from '../../util/Authentication/Authentication'
+import React, {useEffect, useState} from 'react'
 
 import './Config.css'
 
-export default class ConfigPage extends React.Component {
-    constructor(props) {
-        super(props)
-        this.Authentication = new Authentication()
+const ConfigPage = () => {
+    const twitch = window.Twitch ? window.Twitch.ext : null
 
-        this.twitch = window.Twitch ? window.Twitch.ext : null
-        this.state = {
-            finishedLoading: false,
-            theme: 'light',
-            profileName: null,
-        }
-    }
+    const [theme, setTheme] = useState('light')
+    const [profileName, setProfileName] = useState(null)
 
-    contextUpdate(context, delta) {
-        if (delta.includes('theme')) {
-            this.setState(() => {
-                return {theme: context.theme}
+    useEffect(() => {
+        if (twitch) {
+            twitch.onContext((context, delta) => {
+                if (delta.includes('theme')) {
+                    setTheme(context.theme)
+                }
             })
         }
+    })
+
+    const handleInputChange = e => setProfileName(e.target.value)
+
+    const onSubmit = e => {
+        e.preventDefault()
+        twitch.configuration.set('broadcaster', '1.0', profileName)
     }
 
-    componentDidMount() {
-        if (this.twitch) {
-            this.twitch.onAuthorized((auth) => {
-                this.Authentication.setToken(auth.token, auth.userId)
-                this.setState({finishedLoading: true})
-            })
-
-            this.twitch.onContext((context, delta) => {
-                this.contextUpdate(context, delta)
-            })
-        }
-    }
-
-    handleInputChange(event) {
-        this.setState({profileName: event.target.value});
-    }
-
-    onSubmit(event) {
-        event.preventDefault()
-        this.twitch.configuration.set('broadcaster', '1.0', this.state.profileName)
-    }
-
-    render() {
-        if (this.state.finishedLoading && this.Authentication.isModerator()) {
-            return (
-                <div className="Config">
-                    <div className={this.state.theme === 'light' ? 'Config-light' : 'Config-dark'}>
-                        <form onSubmit={e => this.onSubmit(e)}>
-                            <label>
-                                Enter your MyAnimeList profile name:
-                                <input type="text" onChange={e => this.handleInputChange(e)} />
-                            </label>
-                            <button type={'submit'}>Ok</button>
-                        </form>
-                    </div>
-                </div>
-            )
-        } else {
-            return (
-                <div className="Config">
-                    <div className={this.state.theme === 'light' ? 'Config-light' : 'Config-dark'}>
-                        You should be a moderator to configure this extension.
-                    </div>
-                </div>
-            )
-        }
-    }
+    return (
+        <div className="Config">
+            <div className={theme === 'light' ? 'Config-light' : 'Config-dark'}>
+                <form onSubmit={onSubmit}>
+                    <label>
+                        new Enter your MyAnimeList profile name:
+                        <input type="text" onChange={handleInputChange} />
+                    </label>
+                    <button type={'submit'}>Ok</button>
+                </form>
+            </div>
+        </div>
+    )
 }
+
+export default ConfigPage
