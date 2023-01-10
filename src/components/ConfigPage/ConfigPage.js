@@ -1,7 +1,8 @@
 import React, {useEffect, useState} from 'react'
 
 import './Config.css'
-import {Button, createTheme, TextField, ThemeProvider} from "@mui/material";
+import {Button, TextField, ThemeProvider} from "@mui/material";
+import getMuiTheme from "../../util/theme";
 
 const ConfigPage = () => {
     const twitch = window.Twitch ? window.Twitch.ext : null
@@ -34,21 +35,10 @@ const ConfigPage = () => {
             })
     }
 
-    const muiTheme = createTheme({
-        palette: {
-            mode: theme,
-            primary: {
-                main: theme === 'light' ? '#232127' : '#e5e3e8',
-                light: '#232127',
-                dark: '#e5e3e8',
-            },
-        },
-    })
-
     return (
         <div className="Config">
             <div className={theme === 'light' ? 'Config-light' : 'Config-dark'}>
-                <ThemeProvider theme={muiTheme}>
+                <ThemeProvider theme={getMuiTheme(theme)}>
                     <TextField label={'MyAnimeList username'} variant={'outlined'} onChange={handleInputChange} error={isUserNotFound} helperText={isUserNotFound ? 'User not found' : null} />
                     <br />
                     <Button sx={{marginTop: "10px"}} variant={'contained'} color="success" onClick={onSave}>{isButtonPressed && !isUserNotFound ? 'Saved' : 'Save'}</Button>
