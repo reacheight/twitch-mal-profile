@@ -4,17 +4,43 @@
 }
 
 .title {
-  font-size: 14px;
+  font-size: 16px;
   font-weight: bold;
-  padding-bottom: 10px;
+  padding-bottom: 3px;
 }
 
-.list-status {
-  font-size: 13px;
+.anime-details {
+  font-size: 11px;
+  color: #666;
+  margin-bottom: 5px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.start-date {
+  margin-right: 8px;
+  font-weight: bold;
+}
+
+.genres {
+  flex: 1;
 }
 
 .description {
   float: right;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.list-status-container {
+  margin-top: auto;
+  margin-bottom: 15px;
+}
+
+.list-status {
+  font-size: 13px;
 }
 
 .picture {

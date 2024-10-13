@@ -10,6 +10,7 @@ const Profile = (props) => {
     const [topRatedTitles, setTopRatedTitles] = useState(null)
     const [newFinishedTitles, setNewFinishedTitles] = useState(null)
     const [watchingTitles, setWatchingTitles] = useState(null)
+    const [userProfile, setUserProfile] = useState(null)
     const [tabIndex, setTabIndex] = useState('1');
 
     const handleChange = (event, newValue) => {
@@ -17,6 +18,11 @@ const Profile = (props) => {
     };
 
     useEffect(() => {
+        // Fetch user profile information
+        fetch(`${process.env.MAL_PROXY_HOST}/${props.name}`)
+            .then(response => response.json())
+            .then(json => setUserProfile(json))
+
         fetch(`${process.env.MAL_PROXY_HOST}/${props.name}/anime/top?limit=5`)
             .then(response => response.json())
             .then(json => setTopRatedTitles(json))
@@ -30,17 +36,25 @@ const Profile = (props) => {
             .then(json => setWatchingTitles(json))
     }, [])
 
-    if (!topRatedTitles || !newFinishedTitles || !watchingTitles)
+    if (!topRatedTitles || !newFinishedTitles || !watchingTitles || !userProfile)
         return <p>Loading...</p>
 
     const tabStyle = {fontSize: '12px', minHeight: '30px', minWidth: '50px', padding: '0px 0px'}
-    const panelStyle = {padding: '0', overflowBlock: 'auto', height: '410px', width: '300px'}
+    const panelStyle = {padding: '0', height: '410px', width: '300px', scrollbarWidth: 'thin'}
 
     return (
         <div className={'container'}>
-            <a className={'profile-link'} href={'https://myanimelist.net/profile/' + props.name} target={'_blank'}>
-                <span className={'profile-name'}>{props.name}</span>
-            </a>
+            {userProfile && (
+                <div className={'user-info'}>
+                    <img src={userProfile.pic} alt={`${props.name}'s profile picture`} className={'user-avatar'} />
+                    <div className={'user-details'}>
+                        <a className={'profile-link'} href={'https://myanimelist.net/profile/' + props.name} target={'_blank'}>
+                            <span className={'profile-name'}>{props.name}</span>
+                        </a>
+                        <p className={'joined-date'}><span className={'joined-word'}>joined</span> <span className={'date'}>{userProfile.joined}</span></p>
+                    </div>
+                </div>
+            )}
             <div className={'tabs'}>
                 <TabContext value={tabIndex}>
                     <TabList sx={{minHeight: '30px', padding: '0'}} variant="fullWidth" onChange={handleChange}>

@@ -10,3 +10,45 @@
   color: #e5e3e8;
   scrollbar-color: #383838 #211c1c;
 }
+
+/* Add these new styles */
+.MuiTabPanel-root {
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #888 #f1f1f1;
+}
+
+/* Styles for Webkit browsers (Chrome, Safari, etc.) */
+.MuiTabPanel-root::-webkit-scrollbar {
+  width: 6px;  /* Reduced from 8px to 6px */
+}
+
+.MuiTabPanel-root::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+.MuiTabPanel-root::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 3px;  /* Adjusted to match the thinner width */
+}
+
+.MuiTabPanel-root::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+/* Adjust these for dark mode */
+.App-dark .MuiTabPanel-root {
+  scrollbar-color: #383838 #211c1c;
+}
+
+.App-dark .MuiTabPanel-root::-webkit-scrollbar-track {
+  background: #211c1c;
+}
+
+.App-dark .MuiTabPanel-root::-webkit-scrollbar-thumb {
+  background: #383838;
+}
+
+.App-dark .MuiTabPanel-root::-webkit-scrollbar-thumb:hover {
+  background: #4a4a4a;
+}
